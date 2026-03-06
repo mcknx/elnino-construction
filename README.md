@@ -1,6 +1,6 @@
 # EL NIŇO s.r.o. — Construction Company Website
 
-## Company Overview
+## Company Overview (Translated from Slovak)
 
 **EL NIŇO s.r.o.** is a stable and reliable construction company based in **Skalica, Slovakia**. They operate across the **Skalica and Senica districts**, offering a wide range of construction services — from new builds and full renovations to smaller repairs and ongoing maintenance.
 
