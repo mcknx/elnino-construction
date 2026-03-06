@@ -1,179 +1,329 @@
 <!doctype html>
-<html lang="en">
+<html lang="sk">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EL NIŇO s.r.o. — Quality Construction in Skalica &amp; Senica</title>
-  <meta name="description" content="EL NIŇO s.r.o. — Stable and reliable construction company operating in the Skalica and Senica districts. Full-service construction, plumbing, heating & gas." />
+  <title>EL NIŇO s.r.o. — Stavebná firma Skalica &amp; Senica</title>
+  <meta name="description" content="EL NIŇO s.r.o. — Stabilná a spoľahlivá stavebná spoločnosť pôsobiaca v okresoch Skalica a Senica. Kompletné stavebné služby, vodoinstalácia, kúrenie a plyn." />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <!-- ── 1. Loader ─────────────────────────────── -->
+  <!-- ── Loader ──────────────────────────────────── -->
   <div id="loader">
     <div class="loader-brand">EL NIŇO</div>
-    <div class="loader-track">
-      <div id="loader-bar"></div>
-    </div>
-    <div id="loader-percent">0%</div>
+    <div class="loader-track"><div id="loader-bar"></div></div>
+    <div id="loader-percent">0 %</div>
   </div>
 
-  <!-- ── 2. Fixed Header ──────────────────────── -->
+  <!-- ── Fixed Canvas Background ─────────────────── -->
+  <div class="canvas-wrap">
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <!-- ── Fixed Header ────────────────────────────── -->
   <header class="site-header">
     <a href="#" class="header-logo">EL NIŇO s.r.o.</a>
-    <nav>
-      <ul class="header-nav">
-        <li><a href="#services">Services</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+    <nav class="header-nav">
+      <ul class="nav-links">
+        <li><a href="#services">Služby</a></li>
+        <li><a href="#equipment">Technika</a></li>
+        <li><a href="#process">Postup</a></li>
+        <li><a href="#coverage">Pokrytie</a></li>
+        <li><a href="#contact">Kontakt</a></li>
       </ul>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
   </header>
 
-  <!-- ── 3. Hero Standalone ───────────────────── -->
-  <section class="hero-standalone">
-    <span class="hero-label">Construction Company — Skalica &amp; Senica</span>
-    <h1 class="hero-heading">
-      <span class="word">EL</span>
-      <span class="word">NIŇO</span>
-    </h1>
-    <p class="hero-tagline">Stable and reliable construction — from new builds and full renovations to smaller repairs. Quality work with attention to detail.</p>
+  <!-- ── Hero ────────────────────────────────────── -->
+  <section class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-badge">Skalica &amp; Senica, Slovensko</span>
+      <h1 class="hero-heading">
+        <span class="word">EL</span>
+        <span class="word">NIŇO</span>
+      </h1>
+      <p class="hero-tagline">Stabilná a spoľahlivá stavebná firma — od novostavieb a kompletných rekonštrukcií po menšie opravy. Kvalitná práca s dôrazom na detail.</p>
+      <a href="#contact" class="btn-primary">Žiadosť o cenovú ponuku</a>
+    </div>
     <div class="hero-scroll-indicator">
       <span>Scroll to explore</span>
       <div class="scroll-arrow"></div>
     </div>
   </section>
 
-  <!-- ── 4. Canvas ────────────────────────────── -->
-  <div class="canvas-wrap">
-    <canvas id="canvas"></canvas>
-  </div>
+  <!-- ── Main Content (scrolls over canvas) ──────── -->
+  <main class="main-content">
 
-  <!-- ── 5. Dark Overlay ──────────────────────── -->
-  <div id="dark-overlay"></div>
-
-  <!-- ── 6. Marquee ───────────────────────────── -->
-  <div class="marquee-wrap" data-scroll-speed="-25" data-enter="15" data-leave="75">
-    <div class="marquee-text">QUALITY CONSTRUCTION &bull; RELIABLE PARTNER &bull; SKALICA &amp; SENICA &bull; QUALITY CONSTRUCTION &bull; RELIABLE PARTNER &bull;</div>
-  </div>
-
-  <!-- ── 7. Scroll Container ──────────────────── -->
-  <div id="scroll-container">
-
-    <!-- Section 1: Our Craft -->
-    <section class="scroll-section section-content align-left"
-             data-enter="10" data-leave="26" data-animation="slide-left">
-      <div class="section-inner">
-        <span class="section-label">001 / Our Craft</span>
-        <h2 class="section-heading">Built on Reliability</h2>
-        <p class="section-body">EL NIŇO s.r.o. is a <strong>full-service construction company</strong> operating across the Skalica and Senica districts of western Slovakia. From pouring foundations to the final coat of paint, we handle every stage of the build with precision and care.</p>
-        <p class="section-body">Whether you're constructing a new home, renovating an apartment, or need emergency plumbing — we're the one partner you need.</p>
-        <span class="section-note">Free site inspections &amp; quotations — always.</span>
-      </div>
-    </section>
-
-    <!-- Section 2: Construction Services -->
-    <section class="scroll-section section-content align-right"
-             data-enter="26" data-leave="42" data-animation="slide-right"
-             id="services">
-      <div class="section-inner">
-        <span class="section-label">002 / Construction Services</span>
-        <h2 class="section-heading">From Ground to Finish</h2>
-        <ul class="service-list">
-          <li>Earthwork &amp; excavation</li>
-          <li>Foundation slabs</li>
-          <li>Concrete work</li>
-          <li>Masonry &amp; bricklaying</li>
-          <li>Plastering (manual &amp; machine)</li>
-          <li>Drywall &amp; plasterboard</li>
-          <li>Facade work</li>
-          <li>Tiling &amp; brick cladding</li>
-          <li>Epoxy &amp; anhydrite flooring</li>
-          <li>Painting &amp; finishing</li>
-          <li>Interlocking pavement</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Section 3: Plumbing, Heating & Gas -->
-    <section class="scroll-section section-content align-left"
-             data-enter="42" data-leave="56" data-animation="fade-up">
-      <div class="section-inner">
-        <span class="section-label">003 / Plumbing, Heating &amp; Gas</span>
-        <h2 class="section-heading">Complete MEP Under One Roof</h2>
-        <ul class="service-list">
-          <li>Water, drainage &amp; gas installation</li>
-          <li>Central &amp; underfloor heating</li>
-          <li>Boiler &amp; water heater installation</li>
-          <li>Sanitary, bathtub &amp; shower fitting</li>
-          <li>Emergency household repairs</li>
-        </ul>
-        <span class="section-note">Full Vodo-Topo-Plyn services — supply, install, maintain.</span>
-      </div>
-    </section>
-
-    <!-- Section 4: Stats (Dark Overlay) -->
-    <section class="scroll-section section-stats"
-             data-enter="58" data-leave="72" data-animation="stagger-up">
-      <div class="stats-grid">
-        <div class="stat">
-          <span class="stat-number" data-value="18" data-decimals="0">0</span>
-          <span class="stat-suffix">+</span>
-          <span class="stat-label">Services Offered</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number" data-value="2" data-decimals="0">0</span>
-          <span class="stat-suffix">districts</span>
-          <span class="stat-label">Regional Coverage</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number" data-value="100" data-decimals="0">0</span>
-          <span class="stat-suffix">%</span>
-          <span class="stat-label">Free Quotations</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 5: Why Choose Us -->
-    <section class="scroll-section section-content align-right"
-             data-enter="72" data-leave="86" data-animation="scale-up"
-             id="about">
-      <div class="section-inner">
-        <span class="section-label">005 / Why Choose Us</span>
-        <h2 class="section-heading">One Call. Everything Handled.</h2>
-        <p class="section-body"><strong>Full-service construction + plumbing/heating/gas</strong> — no need for multiple contractors. We manage the entire project from start to finish.</p>
-        <p class="section-body">Free on-site inspections and quotations come standard. Local expertise across Skalica &amp; Senica means we know the region, the regulations, and the craftsmanship required.</p>
-        <span class="section-note">Modern, professional design with attention to every detail.</span>
-      </div>
-    </section>
-
-    <!-- Section 6: CTA / Contact (Persists) -->
-    <section class="scroll-section section-cta"
-             data-enter="86" data-leave="100" data-animation="clip-reveal"
-             data-persist="true"
-             id="contact">
-      <div class="section-inner" style="max-width:30vw;">
-        <span class="section-label">Get In Touch</span>
-        <h2 class="section-heading">Ready to Build?</h2>
-        <p class="section-body">Free price quotation and site inspection — no cost, no obligation. Contact us today.</p>
-        <div class="cta-contact-row">
-          <div class="cta-contact-item">
-            <span>Phone</span>
-            <strong>+421 915 774 627</strong>
+    <!-- ── Services Grid ─────────────────────────── -->
+    <section class="section services-section" id="services">
+      <div class="container">
+        <h2 class="section-title reveal">NAŠE SLUŽBY</h2>
+        <div class="services-bento">
+          <div class="service-card span-2 reveal">
+            <div class="service-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 20h20M4 20V8l8-5 8 5v12M10 20v-6h4v6"/></svg>
+            </div>
+            <h3 class="service-card-title">KOMPLETNÉ STAVEBNÉ RIEŠENIA</h3>
+            <p class="service-card-desc">Od projektu po kolaudáciu — novostavby, rekonštrukcie, opravy</p>
           </div>
-          <div class="cta-contact-item">
-            <span>Email</span>
-            <strong>elnino.stavby@centrum.sk</strong>
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <h3 class="service-card-title">VÝKOPOVÉ A ZEMNÉ PRÁCE</h3>
+            <p class="service-card-desc">Profesionálne zemné práce akéhokoľvek rozsahu</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </div>
+            <h3 class="service-card-title">VODOINSTALÁCIA A KÚRENIE</h3>
+            <p class="service-card-desc">Voda, odpad, plyn, ústredné a podlahové kúrenie</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="6" width="22" height="12" rx="2" ry="2"/><path d="M1 10h22"/></svg>
+            </div>
+            <h3 class="service-card-title">OMIETKY A OBKLADY</h3>
+            <p class="service-card-desc">Ručné a strojové omietky, obklady a dlažby</p>
+          </div>
+          <div class="service-card span-2 reveal">
+            <div class="service-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h3 class="service-card-title">FASÁDY A ZATEPĽOVANIE</h3>
+            <p class="service-card-desc">Kompletné fasádne systémy, zatepľovanie budov</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="service-card-title">HAVÁRIJNÉ OPRAVY</h3>
+            <p class="service-card-desc">Rýchle riešenie havarijných situácií v domácnosti</p>
           </div>
         </div>
-        <a href="mailto:elnino.stavby@centrum.sk" class="cta-button">Get a Free Quote</a>
-        <p class="cta-address">Kráľovská 5/8, Skalica, 909 01, Slovakia</p>
       </div>
     </section>
 
-  </div>
+    <!-- ── Equipment Showcase Grid ───────────────── -->
+    <section class="section showcase-section" id="equipment">
+      <div class="container">
+        <h2 class="section-title reveal">NAŠE SLUŽBY — DETAIL</h2>
+        <p class="section-subtitle reveal">Kompletný servis pod jednou strechou</p>
+        <div class="grid-4">
+          <div class="card showcase-card reveal">
+            <div class="card-image-wrap">
+              <div class="card-image-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M2 20h20M4 20V8l8-5 8 5v12"/><rect x="9" y="12" width="6" height="8"/></svg>
+              </div>
+              <span class="badge-number">01</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">MURÁRSKE PRÁCE</h3>
+              <p class="card-desc">Murovanie, betonáž, základové dosky a konštrukcie</p>
+            </div>
+          </div>
+          <div class="card showcase-card reveal">
+            <div class="card-image-wrap">
+              <div class="card-image-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              </div>
+              <span class="badge-number">02</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">VODO-TOPO-PLYN</h3>
+              <p class="card-desc">Inštalácia vody, kúrenia, kotlov a sanity</p>
+            </div>
+          </div>
+          <div class="card showcase-card reveal">
+            <div class="card-image-wrap">
+              <div class="card-image-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+              </div>
+              <span class="badge-number">03</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">PODLAHY A DLAŽBY</h3>
+              <p class="card-desc">Epoxidové, anhydritové podlahy, obklady a dlažby</p>
+            </div>
+          </div>
+          <div class="card showcase-card reveal">
+            <div class="card-image-wrap">
+              <div class="card-image-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+              </div>
+              <span class="badge-number">04</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">MAĽBY A NÁTERY</h3>
+              <p class="card-desc">Finálne povrchové úpravy, maľovanie interiérov</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <!-- ── CDN Scripts ──────────────────────────── -->
+    <!-- ── Stats Section ─────────────────────────── -->
+    <section class="section stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat reveal">
+            <span class="stat-number" data-value="18">0</span>
+            <span class="stat-suffix">+</span>
+            <span class="stat-label">Ponúkaných služieb</span>
+          </div>
+          <div class="stat reveal">
+            <span class="stat-number" data-value="2">0</span>
+            <span class="stat-suffix">okresy</span>
+            <span class="stat-label">Regionálne pokrytie</span>
+          </div>
+          <div class="stat reveal">
+            <span class="stat-number" data-value="100">0</span>
+            <span class="stat-suffix">%</span>
+            <span class="stat-label">Bezplatné cenové ponuky</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Process Timeline ──────────────────────── -->
+    <section class="section process-section" id="process">
+      <div class="container">
+        <h2 class="section-title reveal">AKO TO FUNGUJE</h2>
+        <div class="process-timeline">
+          <div class="process-step reveal">
+            <div class="step-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <span class="step-number">01</span>
+            <h3 class="step-title">KONTAKT</h3>
+            <p class="step-desc">Zavolajte nám alebo vyplňte formulár</p>
+          </div>
+          <div class="process-step reveal">
+            <div class="step-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </div>
+            <span class="step-number">02</span>
+            <h3 class="step-title">OBHLIADKA</h3>
+            <p class="step-desc">Bezplatná obhliadka a posúdenie miesta</p>
+          </div>
+          <div class="process-step reveal">
+            <div class="step-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <span class="step-number">03</span>
+            <h3 class="step-title">PLÁNOVANIE</h3>
+            <p class="step-desc">Príprava detailného plánu a cenovej ponuky</p>
+          </div>
+          <div class="process-step reveal">
+            <div class="step-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <span class="step-number">04</span>
+            <h3 class="step-title">REALIZÁCIA</h3>
+            <p class="step-desc">Profesionálna realizácia projektu</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Coverage Map ──────────────────────────── -->
+    <section class="section coverage-section" id="coverage">
+      <div class="container">
+        <h2 class="section-title reveal">OBLASŤ PÔSOBENIA</h2>
+        <p class="section-subtitle reveal">Skalica, Senica a okolité regióny</p>
+        <div class="coverage-map reveal">
+          <div class="map-ring ring-outer"></div>
+          <div class="map-ring ring-middle"></div>
+          <div class="map-ring ring-inner"></div>
+          <div class="map-center">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--brand-orange)" stroke="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <span class="map-center-label">SKALICA</span>
+          </div>
+          <div class="city-dot" style="--x: 38%; --y: 28%;"><span class="dot"></span><span class="city-name">Hodonín</span></div>
+          <div class="city-dot" style="--x: 58%; --y: 22%;"><span class="dot"></span><span class="city-name">Holíč</span></div>
+          <div class="city-dot" style="--x: 30%; --y: 58%;"><span class="dot"></span><span class="city-name">Senica</span></div>
+          <div class="city-dot" style="--x: 68%; --y: 62%;"><span class="dot"></span><span class="city-name">Myjava</span></div>
+          <div class="city-dot" style="--x: 48%; --y: 82%;"><span class="dot"></span><span class="city-name">Malacky</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA Banner ────────────────────────────── -->
+    <section class="cta-banner">
+      <div class="container">
+        <h2 class="cta-heading reveal">POTREBUJETE STAVEBNÉ SLUŽBY?</h2>
+        <p class="cta-subtitle reveal">Kontaktujte nás a získajte nezáväznú cenovú ponuku</p>
+        <a href="#contact" class="btn-dark reveal">Kontaktujte nás</a>
+      </div>
+    </section>
+
+    <!-- ── Contact ───────────────────────────────── -->
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <h2 class="section-title reveal">KONTAKT</h2>
+        <div class="contact-grid">
+          <div class="contact-info reveal">
+            <div class="info-card">
+              <div class="info-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <span class="info-label">Telefón</span>
+                <strong class="info-value">+421 915 774 627</strong>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <span class="info-label">E-mail</span>
+                <strong class="info-value">elnino.stavby@centrum.sk</strong>
+              </div>
+            </div>
+            <div class="info-card info-card--address">
+              <span class="info-text">📍 Kráľovská 5/8, Skalica, 909 01</span>
+            </div>
+            <div class="info-card info-card--address">
+              <span class="info-text">Pokrytie do 50 km od Skalice</span>
+            </div>
+          </div>
+          <form class="contact-form reveal" name="contact" method="POST" data-netlify="true" novalidate>
+            <input type="text" name="name" placeholder="Meno" required />
+            <input type="email" name="email" placeholder="E-mail" required />
+            <select name="service" required>
+              <option value="" disabled selected>Vyberte službu</option>
+              <option value="construction">Stavebné práce</option>
+              <option value="plumbing">Vodoinstalácia &amp; kúrenie</option>
+              <option value="excavation">Výkopové práce</option>
+              <option value="facade">Fasády a zatepľovanie</option>
+              <option value="emergency">Havárijné opravy</option>
+              <option value="other">Iné</option>
+            </select>
+            <textarea name="message" rows="5" placeholder="Správa"></textarea>
+            <button type="submit" class="btn-submit">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              <span>Odoslať žiadosť</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Footer ────────────────────────────────── -->
+    <footer class="site-footer">
+      <p>&copy; 2026 EL NIŇO s.r.o. Skalica, Slovensko.</p>
+    </footer>
+
+  </main>
+
+  <!-- ── CDN Scripts ─────────────────────────────── -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>

@@ -1,6 +1,6 @@
 /* =========================================================
-   EL NIŇO s.r.o. — Scroll-Driven Animation Engine
-   Lenis + GSAP + Canvas Frame Rendering
+   EL NIŇO s.r.o. — Canvas Video + Business Layout Engine
+   Lenis + GSAP + Canvas Frame Rendering + ScrollTrigger Reveals
    ========================================================= */
 
 (function () {
@@ -8,7 +8,6 @@
 
   /* ── Constants ─────────────────────────────────── */
   const FRAME_COUNT = 311;
-  const FRAME_SPEED = 2.0;
   const IMAGE_SCALE = 0.88;
   const FRAME_PATH = (i) => `frames/frame_${String(i).padStart(4, "0")}.webp`;
 
@@ -16,12 +15,10 @@
   const loader = document.getElementById("loader");
   const loaderBar = document.getElementById("loader-bar");
   const loaderPercent = document.getElementById("loader-percent");
-  const heroSection = document.querySelector(".hero-standalone");
+  const heroSection = document.querySelector(".hero");
   const canvasWrap = document.querySelector(".canvas-wrap");
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
-  const scrollContainer = document.getElementById("scroll-container");
-  const darkOverlay = document.getElementById("dark-overlay");
 
   /* ── State ─────────────────────────────────────── */
   const frames = new Array(FRAME_COUNT);
@@ -29,11 +26,9 @@
   let bgColor = "#F5F2EF";
   let loaded = 0;
 
-  /* ── Canvas Sizing ─────────────────────────────── */
+  /* ── Canvas Sizing (Full Viewport) ─────────────── */
   function getCanvasSize() {
-    const w = canvasWrap.offsetWidth || Math.round(window.innerWidth * 2 / 3);
-    const h = window.innerHeight;
-    return { w, h };
+    return { w: window.innerWidth, h: window.innerHeight };
   }
 
   function resizeCanvas() {
@@ -98,7 +93,7 @@
       function updateProgress() {
         const pct = Math.round((loaded / FRAME_COUNT) * 100);
         loaderBar.style.width = pct + "%";
-        loaderPercent.textContent = pct + "%";
+        loaderPercent.textContent = pct + " %";
       }
 
       function loadImage(index) {
@@ -120,7 +115,7 @@
         });
       }
 
-      // Phase 1: first 10 frames
+      // Phase 1: first 10 frames (blocking)
       const firstBatch = [];
       for (let i = 0; i < FIRST_BATCH && i < FRAME_COUNT; i++) {
         firstBatch.push(loadImage(i));
@@ -175,43 +170,31 @@
     return lenis;
   }
 
-  /* ── Hero Transition (Circle Wipe) ─────────────── */
-  function initHeroTransition() {
+  /* ── Hero Fade Out on Scroll ───────────────────── */
+  function initHeroFade() {
+    if (!heroSection) return;
     ScrollTrigger.create({
-      trigger: scrollContainer,
+      trigger: heroSection,
       start: "top top",
-      end: "bottom bottom",
+      end: "bottom top",
       scrub: true,
       onUpdate: (self) => {
-        const p = self.progress;
-        // Hero fades out in first 5% of scroll
-        const heroOpacity = Math.max(0, 1 - p * 15);
-        heroSection.style.opacity = heroOpacity;
-        if (heroOpacity <= 0) {
-          heroSection.style.visibility = "hidden";
-        } else {
-          heroSection.style.visibility = "visible";
-        }
-
-        // Canvas reveals via expanding circle clip-path
-        const wipeProgress = Math.min(1, Math.max(0, (p - 0.01) / 0.06));
-        const radius = wipeProgress * 85;
-        canvasWrap.style.clipPath = `circle(${radius}% at 50% 50%)`;
+        const opacity = 1 - self.progress * 1.5;
+        heroSection.style.opacity = Math.max(0, opacity);
       },
     });
   }
 
-  /* ── Frame-to-Scroll Binding ───────────────────── */
+  /* ── Frame-to-Scroll Binding (Full Page) ───────── */
   function initFrameScroll() {
     ScrollTrigger.create({
-      trigger: scrollContainer,
+      trigger: document.body,
       start: "top top",
       end: "bottom bottom",
       scrub: true,
       onUpdate: (self) => {
-        const accelerated = Math.min(self.progress * FRAME_SPEED, 1);
         const index = Math.min(
-          Math.floor(accelerated * FRAME_COUNT),
+          Math.floor(self.progress * FRAME_COUNT),
           FRAME_COUNT - 1
         );
         if (index !== currentFrame) {
@@ -222,87 +205,27 @@
     });
   }
 
-  /* ── Section Animation System ──────────────────── */
-  function positionSections() {
-    const sections = document.querySelectorAll(".scroll-section");
+  /* ── Scroll Reveal Animations ──────────────────── */
+  function initScrollReveals() {
+    const sections = document.querySelectorAll(".section, .cta-banner");
     sections.forEach((section) => {
-      const enter = parseFloat(section.dataset.enter) / 100;
-      const leave = parseFloat(section.dataset.leave) / 100;
-      const midpoint = (enter + leave) / 2;
-      section.style.top = `${midpoint * 100}%`;
-      section.style.transform = "translateY(-50%)";
-    });
-  }
+      const reveals = section.querySelectorAll(".reveal");
+      if (reveals.length === 0) return;
 
-  function setupSectionAnimation(section) {
-    const type = section.dataset.animation;
-    const persist = section.dataset.persist === "true";
-    const enter = parseFloat(section.dataset.enter) / 100;
-    const leave = parseFloat(section.dataset.leave) / 100;
-
-    const children = section.querySelectorAll(
-      ".section-label, .section-heading, .section-body, .section-note, .cta-button, .stat, .cta-contact-row, .cta-address, .service-list"
-    );
-
-    const tl = gsap.timeline({ paused: true });
-
-    switch (type) {
-      case "fade-up":
-        tl.from(children, { y: 50, opacity: 0, stagger: 0.12, duration: 0.9, ease: "power3.out" });
-        break;
-      case "slide-left":
-        tl.from(children, { x: -80, opacity: 0, stagger: 0.14, duration: 0.9, ease: "power3.out" });
-        break;
-      case "slide-right":
-        tl.from(children, { x: 80, opacity: 0, stagger: 0.14, duration: 0.9, ease: "power3.out" });
-        break;
-      case "scale-up":
-        tl.from(children, { scale: 0.85, opacity: 0, stagger: 0.12, duration: 1.0, ease: "power2.out" });
-        break;
-      case "rotate-in":
-        tl.from(children, { y: 40, rotation: 3, opacity: 0, stagger: 0.1, duration: 0.9, ease: "power3.out" });
-        break;
-      case "stagger-up":
-        tl.from(children, { y: 60, opacity: 0, stagger: 0.15, duration: 0.8, ease: "power3.out" });
-        break;
-      case "clip-reveal":
-        tl.from(children, { clipPath: "inset(100% 0 0 0)", opacity: 0, stagger: 0.15, duration: 1.2, ease: "power4.inOut" });
-        break;
-    }
-
-    let isVisible = false;
-    let hasPlayed = false;
-
-    ScrollTrigger.create({
-      trigger: scrollContainer,
-      start: "top top",
-      end: "bottom bottom",
-      scrub: true,
-      onUpdate: (self) => {
-        const p = self.progress;
-        const inRange = p >= enter && p <= leave;
-        const pastLeave = p > leave;
-
-        if (inRange && !isVisible) {
-          section.classList.add("is-visible");
-          tl.play();
-          isVisible = true;
-          hasPlayed = true;
-        } else if (!inRange && isVisible) {
-          if (persist && pastLeave) {
-            // Keep visible
-          } else {
-            section.classList.remove("is-visible");
-            tl.reverse();
-            isVisible = false;
-          }
-        }
-
-        // Persist logic — keep showing after leave range
-        if (persist && hasPlayed && pastLeave) {
-          section.classList.add("is-visible");
-        }
-      },
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 80%",
+        once: true,
+        onEnter: () => {
+          gsap.to(reveals, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+          });
+        },
+      });
     });
   }
 
@@ -310,87 +233,73 @@
   function initCounters() {
     document.querySelectorAll(".stat-number").forEach((el) => {
       const target = parseFloat(el.dataset.value);
-      const decimals = parseInt(el.dataset.decimals || "0");
       const obj = { val: 0 };
       gsap.to(obj, {
         val: target,
         duration: 2,
         ease: "power1.out",
         scrollTrigger: {
-          trigger: el.closest(".scroll-section"),
+          trigger: el.closest(".section"),
           start: "top 70%",
           toggleActions: "play none none reverse",
         },
         onUpdate: () => {
-          el.textContent = decimals > 0
-            ? obj.val.toFixed(decimals)
-            : Math.round(obj.val);
+          el.textContent = Math.round(obj.val);
         },
       });
     });
   }
 
-  /* ── Horizontal Marquee ────────────────────────── */
-  function initMarquee() {
-    document.querySelectorAll(".marquee-wrap").forEach((el) => {
-      const speed = parseFloat(el.dataset.scrollSpeed) || -25;
-      const marqueeEnter = parseFloat(el.dataset.enter || "15") / 100;
-      const marqueeLeave = parseFloat(el.dataset.leave || "75") / 100;
+  /* ── Mobile Menu ───────────────────────────────── */
+  function initMobileMenu() {
+    const hamburger = document.querySelector(".hamburger");
+    const navLinks = document.querySelector(".nav-links");
+    if (!hamburger || !navLinks) return;
 
-      gsap.to(el.querySelector(".marquee-text"), {
-        xPercent: speed,
-        ease: "none",
-        scrollTrigger: {
-          trigger: scrollContainer,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: true,
-        },
-      });
+    hamburger.addEventListener("click", () => {
+      const isOpen = hamburger.classList.toggle("open");
+      navLinks.classList.toggle("open");
+      hamburger.setAttribute("aria-expanded", isOpen);
+      document.body.style.overflow = isOpen ? "hidden" : "";
+    });
 
-      // Fade in/out based on range
-      ScrollTrigger.create({
-        trigger: scrollContainer,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true,
-        onUpdate: (self) => {
-          const p = self.progress;
-          if (p >= marqueeEnter && p <= marqueeLeave) {
-            el.style.opacity = 1;
-          } else {
-            el.style.opacity = 0;
-          }
-        },
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("open");
+        navLinks.classList.remove("open");
+        hamburger.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
       });
     });
   }
 
-  /* ── Dark Overlay ──────────────────────────────── */
-  function initDarkOverlay() {
-    const statsSection = document.querySelector(".section-stats");
-    if (!statsSection) return;
-    const enter = parseFloat(statsSection.dataset.enter) / 100;
-    const leave = parseFloat(statsSection.dataset.leave) / 100;
-    const fadeRange = 0.04;
+  /* ── Form Validation ───────────────────────────── */
+  function initFormValidation() {
+    const form = document.querySelector(".contact-form");
+    if (!form) return;
 
-    ScrollTrigger.create({
-      trigger: scrollContainer,
-      start: "top top",
-      end: "bottom bottom",
-      scrub: true,
-      onUpdate: (self) => {
-        const p = self.progress;
-        let opacity = 0;
-        if (p >= enter - fadeRange && p <= enter) {
-          opacity = ((p - (enter - fadeRange)) / fadeRange) * 0.9;
-        } else if (p > enter && p < leave) {
-          opacity = 0.9;
-        } else if (p >= leave && p <= leave + fadeRange) {
-          opacity = 0.9 * (1 - (p - leave) / fadeRange);
+    form.addEventListener("submit", (e) => {
+      let valid = true;
+      const fields = form.querySelectorAll("[required]");
+
+      fields.forEach((field) => {
+        field.classList.remove("error");
+        if (!field.value.trim()) {
+          field.classList.add("error");
+          valid = false;
         }
-        darkOverlay.style.opacity = opacity;
-      },
+        if (field.type === "email" && field.value.trim()) {
+          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailPattern.test(field.value.trim())) {
+            field.classList.add("error");
+            valid = false;
+          }
+        }
+      });
+
+      if (!valid) {
+        e.preventDefault();
+      }
     });
   }
 
@@ -398,19 +307,20 @@
   function animateHero() {
     const words = document.querySelectorAll(".hero-heading .word");
     const tagline = document.querySelector(".hero-tagline");
-    const label = document.querySelector(".hero-label");
+    const badge = document.querySelector(".hero-badge");
+    const btn = document.querySelector(".btn-primary");
     const scrollInd = document.querySelector(".hero-scroll-indicator");
 
-    gsap.from(label, { y: 20, opacity: 0, duration: 0.8, ease: "power3.out", delay: 0.3 });
-    gsap.from(words, { y: 80, opacity: 0, stagger: 0.12, duration: 1.0, ease: "power3.out", delay: 0.5 });
-    gsap.from(tagline, { y: 30, opacity: 0, duration: 0.9, ease: "power3.out", delay: 1.0 });
-    gsap.from(scrollInd, { opacity: 0, duration: 0.8, ease: "power2.out", delay: 1.5 });
+    if (badge) gsap.from(badge, { y: 20, opacity: 0, duration: 0.8, ease: "power3.out", delay: 0.3 });
+    if (words.length) gsap.from(words, { y: 80, opacity: 0, stagger: 0.12, duration: 1.0, ease: "power3.out", delay: 0.5 });
+    if (tagline) gsap.from(tagline, { y: 30, opacity: 0, duration: 0.9, ease: "power3.out", delay: 1.0 });
+    if (btn) gsap.from(btn, { y: 20, opacity: 0, duration: 0.8, ease: "power3.out", delay: 1.3 });
+    if (scrollInd) gsap.from(scrollInd, { opacity: 0, duration: 0.8, ease: "power2.out", delay: 1.5 });
   }
 
   /* ── Initialize ────────────────────────────────── */
   async function init() {
     gsap.registerPlugin(ScrollTrigger);
-    initLenis();
 
     await preloadFrames();
 
@@ -420,19 +330,15 @@
       loader.style.display = "none";
     }, 700);
 
-    // Hero entrance animation
-    animateHero();
-
-    // Setup scroll systems
-    initHeroTransition();
+    // Start systems
+    initLenis();
     initFrameScroll();
-    positionSections();
-
-    document.querySelectorAll(".scroll-section").forEach(setupSectionAnimation);
-
+    initHeroFade();
+    animateHero();
+    initScrollReveals();
     initCounters();
-    initMarquee();
-    initDarkOverlay();
+    initMobileMenu();
+    initFormValidation();
   }
 
   // Wait for DOM
